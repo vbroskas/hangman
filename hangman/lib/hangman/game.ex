@@ -36,7 +36,8 @@ defmodule Hangman.Game do
     %{
       game_state: game.game_state,
       turns_left: game.turns_left,
-      display_letters: game.letters |> reveal_guessed(game.guesses)
+      display_letters: game.letters |> reveal_guessed(game.guesses),
+      letters_guessed: game.guesses
     }
   end
 

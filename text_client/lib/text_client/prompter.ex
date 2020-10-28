@@ -1,21 +1,22 @@
 defmodule TextClient.Prompter do
-  def accept_move(game) do
-    IO.gets("> Guess a letter: ")
-    |> process_input(game)
-    |> IO.inspect()
+  alias TextClient.State
+
+  def accept_move(game = %State{}) do
+    response = IO.gets("> Guess a letter: ")
+    process_input(response, game)
   end
 
-  defp process_input(:eof, game) do
+  defp process_input(:eof, _game) do
     IO.puts("Sorry there was an error with your input, try again...")
-    accept_move(game)
+    exit(:normal)
   end
 
-  defp process_input({:error, _reason}, game) do
+  defp process_input({:error, _reason}, _game) do
     IO.puts("Sorry there was an error with your input, try again...")
-    accept_move(game)
+    exit(:normal)
   end
 
-  defp process_input(input, game) do
+  defp process_input(input, game = %State{}) do
     input
     |> String.replace(~r/[^[:alpha:]]/, "")
     |> String.trim()
@@ -23,18 +24,18 @@ defmodule TextClient.Prompter do
     |> vet_input(game)
   end
 
-  defp vet_input(input, game) do
+  defp vet_input(input, game = %State{}) do
     cond do
       String.length(input) == 0 ->
         IO.puts("Gotta type something...")
         accept_move(game)
 
       String.length(input) > 1 ->
-        IO.puts("Just one letter please")
+        IO.puts("Enter one letter please")
         accept_move(game)
 
       true ->
-        input
+        %{game | guess: input}
     end
   end
 end

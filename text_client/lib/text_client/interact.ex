@@ -14,6 +14,6 @@ defmodule TextClient.Interact do
   end
 
   defp setup_state(game) do
-    %State{game_service: game.game_state, tally: Hangman.tally(game), guessed: game.guesses}
+    %State{game_service: game, tally: Hangman.tally(game)}
   end
 end
