@@ -1,5 +1,6 @@
 defmodule Computer.PlayGame do
   @letters ~w[a b c d e f g h i j k l m n o p q r s t u v w x y z]
+  @most_common Dictionary.get_most_common_8_letters()
   def start do
     game = Hangman.new_game()
     make_move(game, Enum.random(@letters))

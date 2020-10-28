@@ -22,6 +22,7 @@ defmodule Computer.MixProject do
   defp deps do
     [
       {:hangman, path: "../hangman"},
+      {:dictionary, path: "../dictionary"},
       {:text_client, path: "../text_client"}
     ]
   end
