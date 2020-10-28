@@ -43,7 +43,15 @@ defmodule Hangman.Game do
 
   # ------------Private Calls-----------------------
 
-  @spec accept_move(map, any, boolean) :: nil | %{game_state: :already_used}
+  @doc """
+  found bug where a letter was guessed on the last remaining move that had already been guessed previsouly
+  This resulted in the turn_left counter going past 0 and giving player indefinate guesses
+  """
+  defp accept_move(game = %Game{turns_left: 1}, _guess, _already_guessed = true) do
+    IO.puts("NO BUG HERE!")
+    Map.put(game, :game_state, :lost)
+  end
+
   @doc """
   letter has already been guessed
   """
