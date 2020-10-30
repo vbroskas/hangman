@@ -1,9 +1,9 @@
 defmodule Dictionary.WordCache do
-  def random_word() do
-    Enum.random(word_list())
+  def get_random_word(word_list) do
+    Enum.random(word_list)
   end
 
-  defp word_list() do
+  def read_word_list() do
     "../../assets/words.txt"
     |> Path.expand(__DIR__)
     |> File.stream!()
@@ -36,7 +36,9 @@ defmodule Dictionary.WordCache do
       Map.update(acc, letter, 1, fn current_value -> current_value + 1 end)
     end)
     |> Enum.sort_by(fn {_k, v} -> -v end)
-    |> Enum.take(length + 4)
-    |> Enum.reduce([], fn {k, _v}, acc -> [k | acc] end)
+
+    # TODO what should I use to calc this...
+    # |> Enum.take(length + 4)
+    # |> Enum.reduce([], fn {k, _v}, acc -> [k | acc] end)
   end
 end

@@ -12,7 +12,7 @@ defmodule Hangman.Game do
   end
 
   def new_game() do
-    letters = Dictionary.random_word() |> String.codepoints()
+    letters = Dictionary.get_random_word() |> String.codepoints()
     %Game{letters: letters}
   end
 
