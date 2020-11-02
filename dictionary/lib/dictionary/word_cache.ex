@@ -1,6 +1,12 @@
 defmodule Dictionary.WordCache do
-  def get_random_word(word_list) do
-    Enum.random(word_list)
+  use Agent
+
+  def start_link() do
+    Agent.start_link(fn -> read_word_list() end, name: __MODULE__)
+  end
+
+  def get_random_word() do
+    Agent.get(__MODULE__, &Enum.random/1)
   end
 
   def read_word_list() do

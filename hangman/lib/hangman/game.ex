@@ -20,7 +20,7 @@ defmodule Hangman.Game do
   On a move, check if game has been won or lost
   """
   def make_move(%Game{game_state: state} = game, _guess) when state in [:won, :lost] do
-    game
+    return_game_with_tally(game)
   end
 
   @doc """
@@ -28,8 +28,8 @@ defmodule Hangman.Game do
   """
   def make_move(%Game{guesses: guesses} = game, guess) do
     # check if guess is already in :guesses MapSet
-    game = accept_move(game, guess, MapSet.member?(guesses, guess))
-    game
+    accept_move(game, guess, MapSet.member?(guesses, guess))
+    |> return_game_with_tally()
   end
 
   def tally(game) do
@@ -126,5 +126,9 @@ defmodule Hangman.Game do
 
   defp reveal_letter(_letter, false) do
     "_"
+  end
+
+  defp return_game_with_tally(game) do
+    {game, tally(game)}
   end
 end
