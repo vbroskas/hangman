@@ -1,13 +1,13 @@
 defmodule Hangman.Server do
   use GenServer
-  alias Hangman
+  alias Hangman.Game
 
-  def start_link() do
+  def start_link(_arg) do
     GenServer.start_link(__MODULE__, nil)
   end
 
   def init(_) do
-    {:ok, Hangman.new_game()}
+    {:ok, Game.new_game()}
   end
 
   def make_move(pid, guess) do
@@ -15,7 +15,12 @@ defmodule Hangman.Server do
   end
 
   def handle_call({:make_move, guess}, _from, game) do
-    {new_game, tally} = Hangman.make_move(game, guess)
+    {new_game, tally} = Game.make_move(game, guess)
     {:reply, tally, new_game}
+  end
+
+  def handle_call({:get_tally}, _from, game) do
+    tally = Game.tally(game)
+    {:reply, tally, game}
   end
 end

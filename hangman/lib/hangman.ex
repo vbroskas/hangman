@@ -2,17 +2,20 @@ defmodule Hangman do
   @moduledoc """
   API interface
   """
-  alias Hangman.Game
 
   @doc """
   create new game
   """
-  defdelegate new_game(), to: Game
 
-  @doc """
-  get status of current game
-  """
-  defdelegate tally(game), to: Game
+  def new_game() do
+    Hangman.Server.start_link()
+  end
 
-  defdelegate make_move(game, guess), to: Game
+  def make_move(game_pid, guess) do
+    GenServer.call(game_pid, {:make_move, guess})
+  end
+
+  def get_tally(game_pid) do
+    GenServer.call(game_pid, {:get_tally})
+  end
 end
