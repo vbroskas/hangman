@@ -1,6 +1,7 @@
-defmodule Hangman.Supervisor do
+defmodule Hangman.GameSupervisor do
   use DynamicSupervisor
 
+  @spec start_link(any) :: :ignore | {:error, any} | {:ok, pid}
   def start_link(init_arg) do
     DynamicSupervisor.start_link(__MODULE__, init_arg, name: __MODULE__)
   end

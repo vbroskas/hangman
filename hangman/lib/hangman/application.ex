@@ -3,7 +3,7 @@ defmodule Hangman.Application do
 
   def start(_type, _args) do
     children = [
-      {Hangman.Server, []}
+      Hangman.GameSupervisor
     ]
 
     options = [
